@@ -52,7 +52,7 @@
      */
     function getGifs(topic) {
         $.ajax({
-            url: 'https://api.giphy.com/v1/gifs/search?q=' + topic + '&api_key=BI8J7kgveCI3Daz2lVtnHtpEMvS3Kq4S&limit=10',
+            url: 'https://api.giphy.com/v1/gifs/search?q=' + topic + '&api_key=BI8J7kgveCI3Daz2lVtnHtpEMvS3Kq4S&limit=9',
             method: 'GET',
         }).then(function(response) {
             displayGifs(response);
@@ -64,24 +64,22 @@
      * @param {object} response
      */
     function displayGifs(response) {
-        console.log(response)
-
         $('#gifs').empty();
         response.data.forEach(function(gif) {
             let rating = gif.rating;
             if (rating === 'g' || rating === 'pg') {
 
                 // Store the static and animated gif URL's in the corresponding arrays
-                let staticURL = gif.images.fixed_height_still.url;
+                let staticURL = gif.images.fixed_width_still.url;
                 static_gif_urls.push(staticURL);
-                let animatedURL = gif.images.fixed_height.url;
+                let animatedURL = gif.images.fixed_width.url;
                 animated_gif_urls.push(animatedURL);
 
                 // Store boolean flag for each gif indicating if it is animated.
                 isAnimated.push(false);
 
                 // Create a new div for each gif
-                let gifDiv = $('<div>');
+                let gifDiv = $('<div>').addClass('grid-item');
 
                 // let cardBodyDiv = $('<div>').addClass('card-body');
 
@@ -94,7 +92,9 @@
                 });
                 
                 // Append the paragraph and image to the newly created bootstrap card
+                // cardBodyDiv.append(p);
                 gifDiv.append(img);
+                // gifDiv.append(cardBodyDiv);
 
                 // Append the div containing the gif to the gifs container.
                 $('#gifs').append(gifDiv);
@@ -154,13 +154,10 @@
             addTopic();
         });
         displayButtons();
+        var $grid = $('.grid').masonry({
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            columnWidth: '.grid-sizer'
+        });
     });
 })();
-
-
-
-/**
- * Make it so that only a few of the button options are shown and the rest are hidden. like in a dropdown '
- * 
- * Fixed scroll bar (sticks to top of the page)
- */
