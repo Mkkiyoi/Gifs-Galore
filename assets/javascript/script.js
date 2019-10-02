@@ -30,6 +30,18 @@
     // the gif is currently animated or not.
     let isAnimated = [];
 
+    let currentTopic = '';
+    let offset = 0;
+
+
+    function ajaxRequest(topic) {
+        $.ajax({
+            url: 'https://api.giphy.com/v1/gifs/search?q=' + topic + '&api_key=BI8J7kgveCI3Daz2lVtnHtpEMvS3Kq4S&limit=10&offset=' + offset,
+            method: 'GET',
+        }).then(function(response) {
+            displayGifs(response);
+        });
+    }
 
     /**
      * Displays all of the topics in TOPICS as button HTML elements. 
@@ -39,11 +51,13 @@
             let button = $('<button>').text(topic);
             button.addClass('btn btn-secondary m-2');
             button.on('click', function() {
-                getGifs(topic);
+                getGifs(topic, 0);
             });
             $('#buttons').append(button);
         });
     }
+
+
 
     /**
      * Gets gifs from Giphy API through ajax request based on the topic. 
@@ -51,12 +65,10 @@
      * @returns JSON object
      */
     function getGifs(topic) {
-        $.ajax({
-            url: 'https://api.giphy.com/v1/gifs/search?q=' + topic + '&api_key=BI8J7kgveCI3Daz2lVtnHtpEMvS3Kq4S&limit=10',
-            method: 'GET',
-        }).then(function(response) {
-            displayGifs(response);
-        });
+        $('#gifs').empty();
+        offset = 0;
+        currentTopic = topic;
+        ajaxRequest(topic);
     }
 
     /**
@@ -64,9 +76,6 @@
      * @param {object} response
      */
     function displayGifs(response) {
-        console.log(response)
-
-        $('#gifs').empty();
         response.data.forEach(function(gif) {
             let rating = gif.rating;
             if (rating === 'g' || rating === 'pg') {
@@ -141,9 +150,14 @@
         let button = $('<button>').text(topic);
         button.addClass('btn btn-secondary m-2');
         button.on('click', function() {
-            getGifs(topic);
+            getGifs(topic, 0);
         });
         $('#buttons').append(button);
+    }
+
+    function addMoreGifs(topic) {
+        offset += 10;
+        ajaxRequest(topic);
     }
 
     /**
@@ -152,6 +166,9 @@
     $(document).ready(function() {
         $('#submit').on('click', function(event) {
             addTopic();
+        });
+        $('#addMoreGifs').on('click', function() {
+            addMoreGifs(currentTopic);
         });
         displayButtons();
     });

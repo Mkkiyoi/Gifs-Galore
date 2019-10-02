@@ -36,12 +36,16 @@
             </div>
             <div class="col-2 p-0 m-2">
                 <form>
-                    <label for="user-input">Add a Gif!</label>
-                    <input class="mb-2" type="text" id="topic-input">
-                    <input id="submit" class="btn btn-secondary" type="submit" value="Submit">
+                    <div class="form-group">
+                        <label for="user-input"><h5>Add a new Gif button:</h5></label>
+                        <input class="mb-2 form-control" type="text" id="topic-input">
+                        <input id="submit" class="btn btn-secondary" type="submit" value="Submit">
+                    </div>
                 </form>
-                <h5 class="mt-3">Suggestions:</h5>
+                <h5 class="mt-3">Click a button to get gifs:</h5>
                 <div id="buttons"></div>
+                <h5 class="mt-3">Get more gifs of the same type:</h5>
+                <button class="btn btn-secondary" id="addMoreGifs">Add More Gifs!</button>
             </div>
         </div>
     </div>
