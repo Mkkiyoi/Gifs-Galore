@@ -1,7 +1,7 @@
 # Gifs-Galore
 
 ### Live Version of the Site
-* [Gifs Galore](mkkiyoi.github.io/Gifs-Galore)
+* [Gifs Galore](https://mkkiyoi.github.io/Gifs-Galore)
 
 ### How does the site work?
 * This site is meant to display gifs from different search parameters.
